@@ -13,7 +13,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 
-def draw_background(window):
+def draw_background():
     """
     This function draws the background. Specifically, the sky and ground.
     """
@@ -57,14 +57,14 @@ def draw_pine_tree(center_x, center_y):
     arcade.draw_polygon_filled(point_list, arcade.color.DARK_GREEN)
 
 
-def draw_birds(window):    # Loop to draw ten birds in random locations.
-    for bird in window.bird_list:
+def draw_birds():    # Loop to draw ten birds in random locations.
+    for bird in bird_list:
 
         # Draw the bird.
         draw_bird(bird[0], bird[1])
 
 
-def draw_trees(window):
+def draw_trees():
 
     # Draw the top row of trees
     for x in range(45, SCREEN_WIDTH, 90):
@@ -75,48 +75,49 @@ def draw_trees(window):
         draw_pine_tree(x, (SCREEN_HEIGHT / 3) - 120)
 
 
-@arcade.decorator.setup
-def create_birds(window):
+def create_birds():
     """
     This, and any function with the arcade.decorator.init decorator,
     is run automatically on start-up.
     """
-
-    window.bird_list = []
+    global bird_list
+    bird_list = []
     for bird_count in range(10):
         x = random.randrange(SCREEN_WIDTH)
         y = random.randrange(SCREEN_HEIGHT / 2, SCREEN_HEIGHT)
-        window.bird_list.append([x, y])
+        bird_list.append([x, y])
 
 
-@arcade.decorator.update
-def animate_birds(window, delta_time):
+@arcade.override
+def update(delta_time):
     """
     This is run every 1/60 of a second or so. Do not draw anything
     in this function.
     """
     change_y = 0.3
 
-    for bird in window.bird_list:
+    for bird in bird_list:
         bird[0] += change_y
         if bird[0] > SCREEN_WIDTH + 20:
             bird[0] = -20
 
 
-@arcade.decorator.draw
-def draw(window):
+@arcade.override
+def on_draw():
     """
-    This is called everytime we need to update our screen. About 60
+    This is called every time we need to update our screen. About 60
     times per second.
 
     Just draw things in this function, don't update where they are.
     """
+    arcade.start_render()
     # Call our drawing functions.
-    draw_background(window)
-    draw_birds(window)
-    draw_trees(window)
+    draw_background()
+    draw_birds()
+    draw_trees()
 
 
 if __name__ == "__main__":
-    arcade.decorator.run(SCREEN_WIDTH, SCREEN_HEIGHT, title="Drawing With Decorators")
+    create_birds()
+    arcade.decorator_run(SCREEN_WIDTH, SCREEN_HEIGHT, title="Drawing With Decorators")
 

@@ -1,6 +1,10 @@
 import arcade
 
 
+WIDTH = 700
+HEIGHT = 600
+
+
 class Ball:
     def __init__(self, radius=20, velocity=70, initial_x=20):
         self.x_position = initial_x
@@ -8,40 +12,45 @@ class Ball:
         self.radius = radius
 
 
-@arcade.decorator.init
-def setup_my_game(window):
-    window.ball: Ball = Ball()
+def setup_my_game():
+    global ball
+    ball = Ball()
 
 
-@arcade.decorator.animate
-def move_ball(window, delta_time):
-    window.ball.x_position += window.ball.velocity * delta_time
+def draw_the_ball():
+    arcade.draw_circle_filled(ball.x_position, HEIGHT // 2, ball.radius, arcade.color.GREEN)
+
+
+def draw_some_text():
+    arcade.draw_text("This is some text.", 10, HEIGHT // 2, arcade.color.BLACK, 20)
+
+
+@arcade.override
+def update(delta_time):
+    ball.x_position += ball.velocity * delta_time
 
     # Did the ball hit the right side of the screen while moving right?
-    if window.ball.x_position > window.width - window.ball.radius and window.ball.velocity > 0:
-        window.ball.velocity *= -1
+    if ball.x_position > WIDTH - ball.radius and ball.velocity > 0:
+        ball.velocity *= -1
 
     # Did the ball hit the left side of the screen while moving left?
-    if window.ball.x_position < window.ball.radius and window.ball.velocity < 0:
-        window.ball.velocity *= -1
+    if ball.x_position < ball.radius and ball.velocity < 0:
+        ball.velocity *= -1
 
 
-@arcade.decorator.draw
-def draw_the_ball(window):
-    arcade.draw_circle_filled(window.ball.x_position, window.height // 2, window.ball.radius, arcade.color.GREEN)
+@arcade.override
+def on_draw():
+    arcade.start_render()
+    draw_the_ball()
+    draw_some_text()
 
 
-@arcade.decorator.draw
-def draw_some_text(window):
-    arcade.draw_text("This is some text.", 10, window.height // 2, arcade.color.BLACK, 20)
-
-
-
-@arcade.decorator.key_press
-def press_space(key, key_modifiers):
+@arcade.override
+def on_key_press(key, key_modifiers):
     if key == arcade.key.SPACE:
         print("You pressed the space bar.")
 
 
 if __name__ == "__main__":
-    arcade.decorator.run(700, 600, background_color=arcade.color.MAHOGANY)
+    setup_my_game()
+    arcade.decorator_run(WIDTH, HEIGHT, background_color=arcade.color.MAHOGANY)

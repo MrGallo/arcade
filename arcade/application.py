@@ -31,11 +31,16 @@ class Window(pyglet.window.Window):
         super().__init__(width=width, height=height, caption=title,
                          resizable=resizable, config=config)
 
+        self.setup()
         self.set_update_rate(1 / 60)
         super().set_fullscreen(fullscreen)
         self.invalid = False
         set_window(self)
         set_viewport(0, self.width, 0, self.height)
+
+    def setup(self):
+        """Setup code that requires a arcade.Window object to be created."""
+        pass
 
     def update(self, delta_time: float):
         """

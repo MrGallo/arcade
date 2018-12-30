@@ -68,23 +68,19 @@ def create_line_strip():
     return shape_list
 
 
-@arcade.decorator.setup
-def setup(window):
+@arcade.override
+def setup():
     """
-    This, and any function with the arcade.decorator.init decorator,
-    is run automatically on start-up.
+    This is automatically run once on start-up.
     """
-
-    window.mountains = []
-
     background = arcade.ShapeElementList()
 
     points = (0, 0), (SCREEN_WIDTH, 0), (SCREEN_WIDTH, SCREEN_HEIGHT), (0, SCREEN_HEIGHT)
     colors = (arcade.color.SKY_BLUE, arcade.color.SKY_BLUE, arcade.color.BLUE, arcade.color.BLUE)
-    rect = arcade.create_rectangles_filled_with_colors(points, colors)
+    rect = arcade.create_rectangle_filled_with_colors(points, colors)
 
     background.append(rect)
-    window.mountains.append(background)
+    mountains.append(background)
 
     for i in range(1, 4):
         color_start = (i * 10, i * 30, i * 10)
@@ -92,11 +88,11 @@ def setup(window):
         min_y = 0 + 70 * (3-i)
         max_y = 120 + 70 * (3-i)
         mountain_range = create_mountain_range(min_y, max_y, color_start, color_end)
-        window.mountains.append(mountain_range)
+        mountains.append(mountain_range)
 
 
-@arcade.decorator.draw
-def draw(window):
+@arcade.override
+def on_draw():
     """
     This is called every time we need to update our screen. About 60
     times per second.
@@ -105,12 +101,14 @@ def draw(window):
     """
     # Call our drawing functions.
 
-    for mountain_range in window.mountains:
+    for mountain_range in mountains:
         mountain_range.draw()
 
     # window.line_strip.draw()
 
 
 if __name__ == "__main__":
-    arcade.decorator.run(SCREEN_WIDTH, SCREEN_HEIGHT, title="Drawing With Decorators", background_color=arcade.color.WHITE)
+    global mountains
+    mountains = []
+    arcade.decorator_run(SCREEN_WIDTH, SCREEN_HEIGHT, title="Drawing With Decorators", background_color=arcade.color.WHITE)
 
