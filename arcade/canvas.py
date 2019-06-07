@@ -7,7 +7,11 @@ from arcade.draw_commands import Texture
 
 
 class Canvas:
-    """Allows user to draw to a canvas and use it as a arcade.Texture."""
+    """A Canvas is a place where we can draw primitive shapes to create a texture.
+    The texture can then be used as a texture for a sprite.
+    This will draw much faster than drawing the shapes over and over in the
+    draw function.
+    """
     def __init__(self, width: int=0, height: int=0, bg_color: Color=(0, 0, 0, 0)):
         self.width = width
         self.height = height
