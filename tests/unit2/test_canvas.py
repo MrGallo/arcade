@@ -26,7 +26,7 @@ class MyTestWindow(arcade.Window):
         # create the canvas
         canvas = arcade.Canvas(width=100, height=150, bg_color=arcade.color.RED)
 
-        # Draw a green boxes, bottom left on the canvas
+        # Draw green boxes, bottom left on the canvas
         canvas.draw_xywh_rectangle_filled(0, 0, 5, 5, arcade.color.GREEN)
         canvas.draw_xywh_rectangle_filled(10, 10, 5, 5, arcade.color.GREEN)
         canvas.draw_xywh_rectangle_filled(20, 0, 5, 5, arcade.color.GREEN)
