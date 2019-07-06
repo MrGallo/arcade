@@ -9,6 +9,7 @@ from arcade.draw_commands import Texture
 class Canvas:
     """A Canvas is a place where we can draw primitive shapes to create a texture.
     The texture can then be used as a texture for a sprite.
+    Sometimes we don't have an image to associate with a sprite.
     This will draw much faster than drawing the shapes over and over in the
     draw function.
     """

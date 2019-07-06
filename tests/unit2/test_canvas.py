@@ -1,10 +1,3 @@
-"""
-A Canvas is a place where we can draw primitive shapes to create a texture.
-The texture can then be used as a texture for a sprite.
-This will draw much faster than drawing the shapes over and over in the
-draw function.
-"""
-
 import os
 import random
 import arcade
@@ -14,7 +7,6 @@ HEIGHT = 600
 
 
 class MyTestWindow(arcade.Window):
-
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
