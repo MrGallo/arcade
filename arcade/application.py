@@ -310,6 +310,10 @@ class Window(pyglet.window.Window):
             self.update(1/60)
 
     def show_view(self, new_view: 'View'):
+        if not isinstance(new_view, View):
+            raise ValueError("Must pass an arcade.View object to "
+                             "Window.show_view()")
+
         # Store the Window that is showing the "new_view" View.
         if not new_view.window:
             new_view.window = self
