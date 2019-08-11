@@ -315,11 +315,11 @@ class Window(pyglet.window.Window):
                              "Window.show_view()")
 
         # Store the Window that is showing the "new_view" View.
-        if not new_view.window:
+        if new_view.window is None:
             new_view.window = self
 
         # remove previously shown view's handlers
-        if self.current_view:
+        if self.current_view is not None:
             self.remove_handlers(self.current_view)
 
         # push new view's handlers
