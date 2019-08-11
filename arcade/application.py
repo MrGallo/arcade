@@ -317,6 +317,10 @@ class Window(pyglet.window.Window):
         # Store the Window that is showing the "new_view" View.
         if new_view.window is None:
             new_view.window = self
+        elif new_view.window != self:
+            raise RuntimeError("You are attempting to pass a view between "
+                               "multiple windows. A view object can only "
+                               "be used in one window.")
 
         # remove previously shown view's handlers
         if self.current_view is not None:

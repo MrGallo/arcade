@@ -50,6 +50,27 @@ def test_show_view_improper_argument_raises_value_error():
         window.show_view(None)
 
 
+def test_show_view_sets_window_if_none():
+    window = BaseWindow()
+    view_one = ViewOne()
+    assert view_one.window is None
+
+    window.show_view(view_one)
+    assert view_one.window is window
+
+
+def test_show_view_does_not_allow_multiple_windows_of_one_view_object():
+    window1 = BaseWindow()
+    window2 = BaseWindow()
+    view_one = ViewOne()
+
+    window1.show_view(view_one)
+    assert view_one.window is window1
+
+    with pytest.raises(RuntimeError):
+        window2.show_view(view_one)
+
+
 def test_show_view_retains_window_event_handlers():
     window = BaseWindow()
 
